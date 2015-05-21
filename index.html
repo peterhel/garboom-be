@@ -1,0 +1,61 @@
+<!DOCTYPE HTML>
+<html>
+
+   <head>
+	
+      <script type="text/javascript">
+         /* global alert */
+         function WebSocketTest()
+         {
+            'use strict';
+            var ws;
+
+            if ('WebSocket' in window)
+            {
+               // Let us open a web socket
+               try {
+                  ws = new WebSocket('ws://localhost:9991/' + location.href.match(/player=(.*)/)[1], 'echo-protocol');
+                  console.log('connected')
+               } catch(e) {
+                  throw'player is a required attribute!';               
+               }
+               ws.onopen = function()
+               {
+                  // Web Socket is connected, send data using send()
+                  ws.send('Message to send');
+                  alert('OnOpen');
+               };
+				
+               ws.onmessage = function (evt) 
+               { 
+                  var received_msg = evt.data;
+                  alert('Message is received...', received_msg);
+               };
+				
+               ws.onclose = function()
+               { 
+                  // websocket is closed.
+                  alert('Connection is closed...'); 
+               };
+				
+            }
+            else
+				
+            {
+               // The browser doesn't support WebSocket
+               alert('WebSocket NOT supported by your Browser!');
+            }
+         }
+
+         WebSocketTest();
+      </script>
+		
+   </head>
+	
+   <body>
+      <div id="sse">
+         <a href="javascript:WebSocketTest()">Run WebSocket</a>
+      </div>
+   </body>
+	
+</html>
