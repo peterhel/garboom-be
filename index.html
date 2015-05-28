@@ -5,10 +5,44 @@
 	
       <script type="text/javascript">
          /* global alert */
+
+         var KEY_LEFT = 81;
+         var KEY_RIGHT = 69;
+         var KEY_UP = 87;
+         var KEY_DOWN = 83;
+         var KEY_TURN_LEFT = 65;
+         var KEY_TURN_RIGHT = 68;
+
+         var position = {
+            direction: 0,
+            x: 0,
+            y: 0
+         }
+
+         var ws;
+
+         window.onkeydown = function(event){
+            console.log(event.keyCode);
+            switch(event.keyCode){
+               case KEY_UP: position.y++; break;
+               case KEY_DOWN: position.y--; break;
+               case KEY_LEFT: position.x--; break;
+               case KEY_RIGHT: position.x++; break;
+               case KEY_TURN_LEFT: position.direction--; break;
+               case KEY_TURN_RIGHT: position.direction++; break;
+               default: return;
+            }
+
+            console.log(JSON.stringify(position));
+
+            if(ws) {
+               ws.send(JSON.stringify(position));
+            }
+         };
+
          function WebSocketTest()
          {
             'use strict';
-            var ws;
 
             if ('WebSocket' in window)
             {
@@ -23,19 +57,16 @@
                {
                   // Web Socket is connected, send data using send()
                   ws.send('Message to send');
-                  alert('OnOpen');
                };
 				
                ws.onmessage = function (evt) 
                { 
                   var received_msg = evt.data;
-                  alert('Message is received...', received_msg);
                };
 				
                ws.onclose = function()
                { 
                   // websocket is closed.
-                  alert('Connection is closed...'); 
                };
 				
             }
@@ -43,7 +74,6 @@
 				
             {
                // The browser doesn't support WebSocket
-               alert('WebSocket NOT supported by your Browser!');
             }
          }
 

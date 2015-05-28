@@ -1,0 +1,4 @@
+---
+- name: restart garboom
+  service: name=garboom state=restarted
+

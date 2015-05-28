@@ -1,0 +1,6 @@
+tar --exclude='roles' -c . > roles/garboom/files/garboom.tar
+ansible-playbook playbook.yml -i ./ansible_hosts
+
+#ssh felparkerad "ps -ef | grep '[n]ode index.js' | awk 'NR>1{ print \$2 }' | xargs kill"
+#tar -c . | ssh felparkerad "cd /tmp/garboom;tar x;node index.js;echo$!"
+#nc -z felparkerad.nu 9991

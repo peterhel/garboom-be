@@ -1,0 +1,10 @@
+---
+- file: path=/opt/garboom state=directory
+- file: path=/var/log/garboom state=directory
+- unarchive: src=garboom.tar dest=/opt/garboom
+  notify:
+    - restart garboom
+- template: src=../templates/garboom.initd.j2 dest=/etc/init.d/garboom mode=0744
+  notify:
+    - restart garboom
+- service: name=garboom state=started enabled=yes
